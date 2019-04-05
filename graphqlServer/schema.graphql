@@ -1,0 +1,30 @@
+#type Query {
+#  info: String!
+#  feed: [Link!]!
+#}
+
+#type Link {
+#  id: ID!
+#  description: String!
+#  url: String!
+#}
+
+#type Inspection {
+#   id: Int!
+   # date
+   # result
+   # violation
+#   restaurant
+#}
+
+type Restaurant {
+    name: String!
+#    owner: Owner
+    address: String
+}
+
+#type Owner {
+#    firstname: String
+#    lastname: String
+#    legalowner: String
+#}

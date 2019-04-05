@@ -1,0 +1,30 @@
+
+
+Architectural Constraints
+
+  Decoupling
+    allows Client and Server to evolve independently
+
+
+  Stateless
+    Reliability
+    Scalable
+    sometimes cumbersome
+
+  Uniform Interface
+    Degraded Efficiency (not custom)
+    Simplicity
+
+
+
+API Paradigms
+
+    Query APIs
+    Streaming APIs
+    Web APIs
+    Flat File
+    RPC APIs
+
+one to one   (custom REST)
+one to many  ()
+many to many

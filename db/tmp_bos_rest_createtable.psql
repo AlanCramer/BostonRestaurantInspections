@@ -1,0 +1,30 @@
+create table tmp_restaurant_inspection (
+    businessname VARCHAR(100),
+    dbaname VARCHAR(100),
+    legalowner VARCHAR(100),
+    namelast VARCHAR(100),
+    namefirst VARCHAR(100),
+    licenseno INT,
+    issdttm timestamp,          -- inspection date? ,
+    expdttm timestamp,          -- something expires date?,
+    licstatus  VARCHAR(30),     -- eg  ACTIVE ...
+    licensecat VARCHAR(10),     -- eg  FS
+    descript VARCHAR(100),
+    result VARCHAR(100),        -- eg HE_Fail
+    resultdttm timestamp,
+    violation VARCHAR(255),     -- eg 16-4-501.11/.15
+    viollevel VARCHAR(10),      -- eg *, ***
+    violdesc VARCHAR(1024),
+    violdttm timestamp,
+    violstatus VARCHAR(255),
+    statusdate timestamp,
+    comments TEXT,
+    address VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(10),
+    zip INT,
+    property_id INT,
+    location VARCHAR(100)
+)
+
+-- copy tmp_restaurant_inspection (businessname, dbaname, legalowner, namelast, namefirst, licenseno, issdttm, expdttm, licstatus, licensecat, descript, result, resultdttm, violation, viollevel, violdesc, violdttm, violstatus, statusdate, comments, address, city, state, zip, property_id, location) from '/Users/cramera/Documents/Practice/bostonRestaurants/boston_restaurant_inspections_3_30_19.csv' DELIMITER ',' CSV HEADER;
