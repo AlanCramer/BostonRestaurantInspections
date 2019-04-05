@@ -25,7 +25,12 @@ const getRestaurantsByName = (request, response) => {
     WHERE businessname ilike `
     + '\'%' + name + '%\'';
 
-  makeQuery(query, response);
+    pool.query(query, (error, results) => {
+      if (error) { throw error }
+
+      response.status(200).json(results.rows)
+    })
+//  return makeQuery(query, response);
 }
 
 const getRestaurantsByNameAndAddress = (request, response) => {

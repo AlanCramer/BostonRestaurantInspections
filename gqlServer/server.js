@@ -20,7 +20,7 @@ var schema = buildSchema(`
     type Restaurant {
         name: String,
         address: String,
-        property_id : Int
+        propertyId : Int
 
     }
 
@@ -28,6 +28,14 @@ var schema = buildSchema(`
         restaurant: Restaurant,
         dateOfInspection: String,
         violation: Violation
+    }
+
+    type Violation {
+        code: String,
+        description: String,
+        level: String,
+        comments: String
+
     }
 
 `);
@@ -39,11 +47,21 @@ var root = {
     restaurants: (args) => {
         return rp('http://localhost:3000/restaurants/' + args.name)
         .then( data => {
-            newData = "{ data:" + data + "}"
+
+            res = {};
             dataObj = JSON.parse(data)
-            console.log(typeof dataObj)
-            console.log(dataObj)
-            return dataObj.join("\n")
+            let firstResp = dataObj[0];
+
+            if (dataObj && firstResp) {
+
+                res.name = firstResp.businessname;
+                res.address = firstResp.address;
+                res.propertyId = firstResp.property_id;
+
+                console.log(firstResp)
+                return res;
+            }
+//            return dataObj.join("\n")
         } )
     },
     rollDice: (args) => {
