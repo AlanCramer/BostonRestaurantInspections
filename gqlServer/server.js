@@ -14,14 +14,16 @@ var schema = buildSchema(`
         help: String,
         test: String,
         rollDice(numDice: Int!, numSides: Int): [Int],
-        restaurants(name: String!): Restaurant
+        restaurants(name: String!): [Restaurant]
     }
 
     type Restaurant {
         name: String,
         address: String,
+        city: String,
+        state: String,
+        zip: Int,
         propertyId : Int
-
     }
 
     type Inspection {
@@ -48,19 +50,27 @@ var root = {
         return rp('http://localhost:3000/restaurants/' + args.name)
         .then( data => {
 
-            res = {};
+//            res = {};
+            rests = [];
             dataObj = JSON.parse(data)
-            let firstResp = dataObj[0];
 
-            if (dataObj && firstResp) {
+            for (iRest in dataObj){
 
-                res.name = firstResp.businessname;
-                res.address = firstResp.address;
-                res.propertyId = firstResp.property_id;
+                console.log("iRest: ", iRest);
+                console.log("object: ", dataObj);
+                restau = dataObj[iRest];
 
-                console.log(firstResp)
-                return res;
+                rest = {};
+                rest.name = restau.businessname;
+                rest.address = restau.address;
+                rest.city = restau.city;
+                rest.state = restau.state;
+                rest.zip = restau.zip;
+                rest.propertyId = restau.property_id;
+
+                rests.push(rest);
             }
+            return rests;
 //            return dataObj.join("\n")
         } )
     },

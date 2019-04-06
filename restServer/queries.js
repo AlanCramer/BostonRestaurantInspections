@@ -20,10 +20,11 @@ const getRestaurantsByName = (request, response) => {
   const name = request.params.name
 
   var query = `
-    SELECT businessname, address, property_id
+    SELECT DISTINCT ON (businessname, address)
+    businessname, address, city, state, zip, property_id
     FROM restaurant_inspection
     WHERE businessname ilike `
-    + '\'%' + name + '%\'';
+    + '\'%' + name + '%\' limit 10';
 
     pool.query(query, (error, results) => {
       if (error) { throw error }

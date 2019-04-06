@@ -1,0 +1,13 @@
+
+-- Not yet used
+
+create table restaurants (
+    id SERIAL PRIMARY KEY,
+    businessname: VARCHAR(100),
+    address VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(10),
+    zip INT,
+    property_id INT,
+    location VARCHAR(100)
+)

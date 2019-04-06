@@ -28,3 +28,32 @@ API Paradigms
 one to one   (custom REST)
 one to many  ()
 many to many
+
+
+
+REST Constraints give REST Properties
+
+  Client Server
+  Stateless
+  Cachable
+  Layered System
+  Code on Demand
+  Uniform Interface
+    Id of Resources
+    resource representations
+    Self descriptive messages
+    HATEOAS
+
+Properties
+    Performance
+    Scalability (www)
+    Simplicity
+    Modifiability
+    Visibility
+    Portability
+    Reliability
+
+Scales
+Performance
+Proven
+Lots of representations
