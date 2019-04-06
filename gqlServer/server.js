@@ -3,7 +3,7 @@ var express_graphql = require('express-graphql');
 var { buildSchema } = require('graphql');
 var request = require('request');
 var rp = require('request-promise');
-var $ = require('jquery');
+
 
 const port = 4040;
 
@@ -45,7 +45,7 @@ var schema = buildSchema(`
 // Root resolver
 var root = {
     message: () => 'Hello World!',
-    help: () => 'Hope this is helpful.',
+
     restaurants: (args) => {
         return rp('http://localhost:3000/restaurants/' + args.name)
         .then( data => {

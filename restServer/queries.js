@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 
 const getRestaurants = (request, response) => {
-  pool.query('SELECT * FROM restaurant_inspection', (error, results) => {
+  pool.query('SELECT * FROM restaurant_inspection limit 100', (error, results) => {
     if (error) {
       throw error
     }
