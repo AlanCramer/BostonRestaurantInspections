@@ -11,10 +11,9 @@ const port = 4040;
 var schema = buildSchema(`
     type Query {
         message: String,
-        help: String,
-        test: String,
-        rollDice(numDice: Int!, numSides: Int): [Int],
-        restaurants(name: String!): [Restaurant]
+        restaurants(name: String!, address: String): [Restaurant]
+        restaurant(id: Int!) : Restaurant
+        restaurantViolations(id: Int!) : RestaurantViolations
     }
 
     type Restaurant {
@@ -26,18 +25,17 @@ var schema = buildSchema(`
         propertyId : Int
     }
 
-    type Inspection {
-        restaurant: Restaurant,
-        dateOfInspection: String,
-        violation: Violation
+    type RestaurantViolations {
+        restaurant: Restaurant
+        violations: [Violation]
     }
 
     type Violation {
+        date: String,
         code: String,
         description: String,
         level: String,
         comments: String
-
     }
 
 `);
@@ -50,14 +48,11 @@ var root = {
         return rp('http://localhost:3000/restaurants/' + args.name)
         .then( data => {
 
-//            res = {};
-            rests = [];
             dataObj = JSON.parse(data)
 
+            rests = [];
             for (iRest in dataObj){
 
-                console.log("iRest: ", iRest);
-                console.log("object: ", dataObj);
                 restau = dataObj[iRest];
 
                 rest = {};
@@ -71,17 +66,50 @@ var root = {
                 rests.push(rest);
             }
             return rests;
-//            return dataObj.join("\n")
-        } )
+        })
     },
-    rollDice: (args) => {
-        var out = [];
-        for (var i = 0; i < args.numDice; i++) {
-            out.push(1 + Math.floor(Math.random() * (args.numSides || 6)));
-        }
-        return out;
+
+    restaurantViolations: (args) => {
+        return rp('http://localhost:3000/restaurant/' + args.id)
+        .then( data => {
+
+            dataObj = JSON.parse(data)
+
+            result = {};
+            vios = [];
+            for (iVio in dataObj){
+
+                vio = dataObj[iVio];
+
+                if (!result.restaurant) {
+
+                    rest = {};
+                    rest.name = vio.businessname;
+                    rest.address = vio.address;
+                    rest.city = vio.city;
+                    rest.state = vio.state;
+                    rest.zip = vio.zip;
+                    rest.propertyId = vio.property_id;
+
+                    result.restaurant = rest;
+                }
+
+                viol = {}
+                viol.result = vio.result
+                viol.date = vio.resultdttm
+                viol.code = vio.violation
+                viol.level = vio.viollevel
+                viol.description = vio.violdesc
+                viol.comments = vio.comments
+                vios.push(viol)
+            }
+
+            result.violations = vios;
+            return result;
+        })
     }
 };
+
 // Create an express server and a GraphQL endpoint
 var app = express();
 app.use('/graphql', express_graphql({
