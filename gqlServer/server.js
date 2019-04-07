@@ -13,7 +13,7 @@ var schema = buildSchema(`
         message: String,
         restaurants(name: String!, address: String): [Restaurant]
         restaurant(id: Int!) : Restaurant
-        restaurantViolations(id: Int!) : RestaurantViolations
+        restaurantViolations(propertyId: Int!) : [Violation]
     }
 
     type Restaurant {
@@ -23,11 +23,6 @@ var schema = buildSchema(`
         state: String,
         zip: Int,
         propertyId : Int
-    }
-
-    type RestaurantViolations {
-        restaurant: Restaurant
-        violations: [Violation]
     }
 
     type Violation {
@@ -43,7 +38,6 @@ var schema = buildSchema(`
 // Root resolver
 var root = {
     message: () => 'Hello World!',
-
     restaurants: (args) => {
         return rp('http://localhost:3000/restaurants/' + args.name)
         .then( data => {
@@ -68,31 +62,16 @@ var root = {
             return rests;
         })
     },
-
     restaurantViolations: (args) => {
-        return rp('http://localhost:3000/restaurant/' + args.id)
+        return rp('http://localhost:3000/restaurant/' + args.propertyId)
         .then( data => {
 
             dataObj = JSON.parse(data)
 
-            result = {};
             vios = [];
             for (iVio in dataObj){
 
                 vio = dataObj[iVio];
-
-                if (!result.restaurant) {
-
-                    rest = {};
-                    rest.name = vio.businessname;
-                    rest.address = vio.address;
-                    rest.city = vio.city;
-                    rest.state = vio.state;
-                    rest.zip = vio.zip;
-                    rest.propertyId = vio.property_id;
-
-                    result.restaurant = rest;
-                }
 
                 viol = {}
                 viol.result = vio.result
@@ -104,8 +83,7 @@ var root = {
                 vios.push(viol)
             }
 
-            result.violations = vios;
-            return result;
+            return vios;
         })
     }
 };

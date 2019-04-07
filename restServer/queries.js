@@ -24,7 +24,7 @@ const getRestaurantById = (request, response) => {
         result, resultdttm, violation, viollevel, violdesc, comments
         FROM restaurant_inspection
         WHERE property_id=`
-        + id + ' limit 100';
+        + id + ' limit 200';
 
     console.log(id)
     console.log(query)
@@ -44,7 +44,7 @@ const getRestaurantsByName = (request, response) => {
     businessname, address, city, state, zip, property_id
     FROM restaurant_inspection
     WHERE businessname ilike `
-    + '\'%' + name + '%\' limit 10';
+    + '\'%' + name + '%\' limit 100';
 
     pool.query(query, (error, results) => {
       if (error) { throw error }
@@ -53,29 +53,29 @@ const getRestaurantsByName = (request, response) => {
     })
 }
 
-const getRestaurantsByNameAndAddress = (request, response) => {
-  const name = request.params.name
-  const addr = request.params.address
-
-  var query = `
-    SELECT DISTINCT ON (businessname, address)
-    businessname, address, city, state, zip, property_id
-    FROM restaurant_inspection
-    WHERE businessname ilike `
-    + '\'%' + name + '%\''
-    + 'AND address ilike '
-    + '\'%' + addr + '%\' limit 10';
-
-  pool.query(query, (error, results) => {
-    if (error) { throw error }
-
-    response.status(200).json(results.rows)
-  })
-}
+// const getRestaurantsByNameAndAddress = (request, response) => {
+//   const name = request.params.name
+//   const addr = request.params.address
+//
+//   var query = `
+//     SELECT DISTINCT ON (businessname, address)
+//     businessname, address, city, state, zip, property_id
+//     FROM restaurant_inspection
+//     WHERE businessname ilike `
+//     + '\'%' + name + '%\''
+//     + 'AND address ilike '
+//     + '\'%' + addr + '%\' limit 100';
+//
+//   pool.query(query, (error, results) => {
+//     if (error) { throw error }
+//
+//     response.status(200).json(results.rows)
+//   })
+// }
 
 module.exports = {
     getRestaurantById,
     getRestaurants,
     getRestaurantsByName,
-    getRestaurantsByNameAndAddress
+    // getRestaurantsByNameAndAddress
 }

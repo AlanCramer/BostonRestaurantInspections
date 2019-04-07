@@ -15,7 +15,7 @@ app.get('/', (request, response) => {
 app.get('/restaurant/:id', db.getRestaurantById)
 app.get('/restaurants', db.getRestaurants)
 app.get('/restaurants/:name', db.getRestaurantsByName)
-app.get('/restaurants/:name/:address', db.getRestaurantsByNameAndAddress)
+// app.get('/restaurants/:name/:address', db.getRestaurantsByNameAndAddress)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
