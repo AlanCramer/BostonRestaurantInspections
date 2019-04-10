@@ -1,7 +1,6 @@
 var express = require('express');
 var express_graphql = require('express-graphql');
 var { buildSchema } = require('graphql');
-var request = require('request');
 var rp = require('request-promise');
 
 
@@ -11,9 +10,9 @@ const port = 4040;
 var schema = buildSchema(`
     type Query {
         message: String,
-        restaurants(name: String!, address: String): [Restaurant]
+        restaurants(name: String!): [ Restaurant ]
         restaurant(id: Int!) : Restaurant
-        restaurantViolations(propertyId: Int!) : [Violation]
+        restaurantViolations(propertyId: Int!) : [ Violation ]
     }
 
     type Restaurant {
