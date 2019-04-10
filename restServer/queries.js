@@ -16,7 +16,7 @@ const getRestaurants = (request, response) => {
 }
 
 const getRestaurantById = (request, response) => {
-    const id = request.params.id
+    const id = request.params.propertyId
 
     var query = `
         SELECT
