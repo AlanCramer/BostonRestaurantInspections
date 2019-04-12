@@ -3,11 +3,9 @@ var express_graphql = require('express-graphql');
 var { buildSchema } = require('graphql');
 var rp = require('request-promise');
 
-
 const port = 4040;
 
 // String, Int, Boolean, Float
-
 // GraphQL schema
 var schema = buildSchema(`
     type Query {
@@ -17,6 +15,7 @@ var schema = buildSchema(`
         restaurantViolations(propertyId: Int!) : [ Violation ]
     }
 
+    """ name, address and propertId (if available) """
     type Restaurant {
         name: String,
         address: String,
@@ -53,10 +52,10 @@ var root = {
 
                 rest = {};
                 rest.name = restau.businessname;
-                // rest.address = restau.address;
-                // rest.city = restau.city;
-                // rest.state = restau.state;
-                // rest.zip = restau.zip;
+                rest.address = restau.address;
+                rest.city = restau.city;
+                rest.state = restau.state;
+                rest.zip = restau.zip;
                 rest.propertyId = restau.property_id;
 
                 rests.push(rest);
@@ -85,7 +84,7 @@ var root = {
                 vios.push(viol)
             }
 
-            return dataObj;
+            return vios;
         })
     }
 };
